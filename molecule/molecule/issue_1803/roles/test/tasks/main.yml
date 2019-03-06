@@ -1,0 +1,11 @@
+---
+- debug:
+    msg: "In tasks/main.yml in test role"
+
+- name: "Test custom lib"
+  influxdb_user:
+    yourName: "Test"
+  register: atest
+
+- debug:
+    var: atest
