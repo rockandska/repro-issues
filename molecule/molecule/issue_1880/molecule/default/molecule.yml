@@ -1,0 +1,64 @@
+---
+dependency:
+  name: galaxy
+lint:
+  name: yamllint
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
+# key: value docker_container module
+# networks need to already exist or created in driver
+# image will be pulled if not created in driver
+# default docker_host will be used if not defined here and in driver
+platforms:
+  - name: instance
+    image: centos:7
+  - name: instance2
+    image: molecule_centos
+    networks:
+      - name: test_network
+  - name: instance3
+    image: molecule_debian
+    networks:
+      - name: test_network
+driver:
+  name: docker
+  # Hosts informations to include in modules
+  # Used to override defaults one
+  # key: value used with all docker module who need the API
+  hosts:
+    - docker_host: unix://var/run/docker.sock
+
+  # Networks to create
+  # Only created if used by at least one instance
+  # key: value valide on docker_network
+  networks:
+    - name: test_network
+
+  # Images to create based on a dockerfile
+  # will be add into molecule_local/
+  # automatic tagging (uuid generated base on some informations) if not force
+  # containers will try to find image information here first before pulling
+  # key: value valide on docker_image module
+  images:
+    - name: molecule_centos
+      buildargs:
+        FROM_IMAGE: "centos:7"
+    - name: molecule_debian
+      buildargs:
+        FROM_IMAGE: "debian:9"
+  # Registries
+  # All hosts will try to connect to those registries
+  # key: value valide on docker_login module
+#  registries:
+#    - registry_url: your.private.registry.io
+#      username: yourself
+#      password: secrets3
+#      reauthorize: true
