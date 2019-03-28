@@ -28,13 +28,15 @@ platforms:
     image: molecule_debian
     networks:
       - name: test_network
+#    docker_host: tcp://127.0.0.1:2375
 driver:
   name: docker
   # Hosts informations to include in modules
   # Used to override defaults one
   # key: value used with all docker module who need the API
   hosts:
-    - docker_host: unix://var/run/docker.sock
+    - docker_host: tcp://127.0.0.1:2375
+      api_version: "1.35"
 
   # Networks to create
   # Only created if used by at least one instance
