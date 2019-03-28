@@ -11,13 +11,14 @@
           {{
             ( __docker_hosts[ (item.docker_host | d('-1')) ] | d({}) )
             | combine({
-                "name": item.name,
+                "name": __container_name,
                 "state": 'absent',
                 "force_kill": item.force_kill | default(true),
               }, recursive=true)
           }}
       vars:
         __docker_hosts: "{{ molecule_yml.driver.hosts | d([]) }}"
+        __container_name: "{{ item.name | d( (((item | string) + molecule_ephemeral_directory) | to_uuid), true ) }}"
       register: server
       with_items: "{{ molecule_yml.platforms | d([], true) }}"
       async: 7200

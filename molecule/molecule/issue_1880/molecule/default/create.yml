@@ -107,6 +107,7 @@
             ( __docker_hosts[ (item.docker_host | d('-1')) ] | d({}) )
             | combine( item, recursive=true )
             | combine({
+                "name": __container_name,
                 "image": ( __docker_image_tag | ternary( 'molecule_local/' + item.image + ':' + __docker_image_tag.tag | d(''), item.image )),
                 "command": (command_directives_dict | default({}))[item.name] | default(omit),
                 "hostname": item.hostname | default(item.name),
@@ -119,6 +120,7 @@
         __docker_images_tag: "{{ docker_images_tag | d({}) }}"
         __docker_image_tag: "{{ __docker_images_tag[item.image] | d({}) }}"
         __docker_hosts: "{{ molecule_yml.driver.hosts | d([]) }}"
+        __container_name: "{{ item.name | d( (((item | string) + molecule_ephemeral_directory) | to_uuid), true ) }}"
       register: server
       with_items:
         - "{{ molecule_yml.platforms }}"
