@@ -19,14 +19,13 @@
       docker_login:
       args: |
         {{
-          ( molecule_yml.driver.hosts[item.0] | d({}) )
+          ( molecule_yml.driver.hosts[item.0] | d({}, true) )
           | combine( item.1, recursive=true )
         }}
       with_nested:
         - "{{ molecule_docker_hosts }}"
-        - "{{ molecule_yml.driver.registries }}"
+        - "{{ molecule_yml.driver.registries | d([], true) }}"
       when:
-        - molecule_yml.driver.registries is defined
         - item.1.registry_url is defined
         - item.1.username is defined
 
@@ -34,7 +33,7 @@
       template:
         src: "{{ item.dockerfile | default('Dockerfile.j2') }}"
         dest: "{{ molecule_ephemeral_directory }}/Dockerfile_{{ item.name | regex_replace('[^a-zA-Z0-9_]', '_') }}"
-      with_items: "{{ molecule_yml.driver.images }}"
+      with_items: "{{ molecule_yml.driver.images | d([], true) }}"
 
     - name: "Generation of uuid tags for images"
       set_fact:
@@ -50,9 +49,7 @@
               }
             })
           }}
-      with_items: "{{ molecule_yml.driver.images }}"
-      when:
-        - molecule_yml.driver.images is defined
+      with_items: "{{ molecule_yml.driver.images | d([], true) }}"
 
     - name: "Build an Ansible compatible image on targeted hosts"
       docker_image:
@@ -70,12 +67,11 @@
       vars:
         __docker_hosts: "{{ molecule_yml.driver.hosts | d([]) }}"
       with_nested:
-        - "{{ molecule_yml.platforms }}"
-        - "{{ molecule_yml.driver.images }}"
+        - "{{ molecule_yml.platforms | d([], true) }}"
+        - "{{ molecule_yml.driver.images | d([], true) }}"
       when:
-        - molecule_yml.driver.images is defined
         - item.1.name is defined
-        - item.0.image == item.1.name
+        - item.0.image == (item.1.name | d('', true) )
 
     - name: "Create docker network(s) on targeted hosts"
       docker_network:
@@ -90,12 +86,11 @@
       vars:
         __docker_hosts: "{{ molecule_yml.driver.hosts | d([]) }}"
       with_nested:
-        - "{{ molecule_yml.platforms }}"
-        - "{{ molecule_yml.driver.networks }}"
+        - "{{ molecule_yml.platforms | d([], true) }}"
+        - "{{ molecule_yml.driver.networks | d([], true) }}"
       when:
-        - molecule_yml.driver.networks is defined
         - item.1.name is defined
-        - item.0.networks | d([]) | selectattr('name', 'equalto', item.1.name) | list | length > 0
+        - item.0.networks | d([]) | selectattr('name', 'equalto', (item.1.name | d('', true)) ) | list | length > 0
 
     - name: "Determine the CMD directives"
       set_fact:
@@ -121,7 +116,8 @@
               }, recursive=true)
           }}
       vars:
-        __docker_image_tag: "{{ docker_images_tag[item.image] | d({}) }}"
+        __docker_images_tag: "{{ docker_images_tag | d({}) }}"
+        __docker_image_tag: "{{ __docker_images_tag[item.image] | d({}) }}"
         __docker_hosts: "{{ molecule_yml.driver.hosts | d([]) }}"
       register: server
       with_items:

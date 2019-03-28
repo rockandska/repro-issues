@@ -1,0 +1,51 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: false
+  tasks:
+    - name: "Destroy molecule instance(s)"
+      docker_container:
+      args: |
+          {{
+            ( __docker_hosts[ (item.docker_host | d('-1')) ] | d({}) )
+            | combine({
+                "name": item.name,
+                "state": 'absent',
+                "force_kill": item.force_kill | default(true),
+              }, recursive=true)
+          }}
+      vars:
+        __docker_hosts: "{{ molecule_yml.driver.hosts | d([]) }}"
+      register: server
+      with_items: "{{ molecule_yml.platforms | d([], true) }}"
+      async: 7200
+      poll: 0
+
+    - name: "Wait for instance(s) deletion to complete"
+      async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: docker_jobs
+      until: docker_jobs.finished
+      retries: 300
+      with_items: "{{ server.results }}"
+
+    - name: "Delete docker network(s) managed by molecule"
+      docker_network:
+      args: |
+        {{
+          ( __docker_hosts[ (item.0.docker_host | d('-1')) ] | d({}) )
+          | combine({
+              "name": item.1.name,
+              "state": 'absent',
+            }, recursive=true)
+        }}
+      vars:
+        __docker_hosts: "{{ molecule_yml.driver.hosts | d([]) }}"
+      with_nested:
+        - "{{ molecule_yml.platforms | d([], true) }}"
+        - "{{ molecule_yml.driver.networks | d([], true) }}"
+      when:
+        - item.1.name is defined
+        - item.0.networks | d([]) | selectattr('name', 'equalto', (item.1.name | d('', true)) ) | list | length > 0
