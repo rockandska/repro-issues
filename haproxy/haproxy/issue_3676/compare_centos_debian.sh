@@ -72,8 +72,10 @@ backend bk_redis
 EOF
 
 for c in proxy-1-centos-7 proxy-2-debian-9;do
+  docker exec ${c} systemctl stop haproxy || true
+  docker exec ${c} pkill haproxy
   docker exec ${c} bash -c "echo '${HAPROXY_CONF}' > /etc/haproxy/haproxy.cfg"
-  docker exec ${c} systemctl restart haproxy
+  docker exec ${c} bash -c "strace -tt haproxy -f /etc/haproxy/haproxy.cfg" &> strace_${c}_with_tcp_connect.trace
   echo "${c}.... done"
 done
 
@@ -94,18 +96,19 @@ fi
 
 sleep 5
 
-cat << EOF
+#cat << EOF
+#
+#####################
+## Systemctl status #
+#####################
+#
+#EOF
+#
+#for c in proxy-1-centos-7 proxy-2-debian-9;do
+#  echo -e "\nsystemctl for container ${c}\n"
+#  docker exec ${c} systemctl status -l haproxy
+#done
 
-####################
-# Systemctl status #
-####################
-
-EOF
-
-for c in proxy-1-centos-7 proxy-2-debian-9;do
-  echo -e "\nsystemctl for container ${c}\n"
-  docker exec ${c} systemctl status -l haproxy
-done
 cat << EOF
 
 #################################################
@@ -159,8 +162,10 @@ cat << EOF
 EOF
 
 for c in proxy-1-centos-7 proxy-2-debian-9;do
+  docker exec ${c} systemctl stop haproxy || true
+  docker exec ${c} pkill haproxy
   docker exec ${c} bash -c "echo '${HAPROXY_CONF}' | sed -n '/tcp-check connect/!p'  > /etc/haproxy/haproxy.cfg"
-  docker exec ${c} systemctl restart haproxy
+  docker exec ${c} bash -c "strace -tt haproxy -f /etc/haproxy/haproxy.cfg" &> strace_${c}_without_tcp_connect.trace
   echo "${c}.... done"
 done
 
@@ -181,18 +186,49 @@ fi
 
 sleep 5
 
+#cat << EOF
+#
+#####################
+## Systemctl status #
+#####################
+#
+#EOF
+#
+#for c in proxy-1-centos-7 proxy-2-debian-9;do
+#  echo -e "\nsystemctl for container ${c}\n"
+#  docker exec ${c} systemctl status -l haproxy
+#done
+
+cat << EOF
+
+#################################################
+# Get Redis nodes status from inside containers #
+#################################################
+
+EOF
+
+for c in proxy-1-centos-7 proxy-2-debian-9;do
+  echo -e "\nInside container: ${c}\n"
+  for r in redis-1-centos-7 redis-2-centos-7 redis-3-centos-7;do
+    echo -e "\n\t ${r} :\n";
+    docker exec ${c} bash -c "echo -e 'PING\r\ninfo replication\r\nQUIT' | nc ${r} 6379" | sed 's/^/            /'
+  done
+done
+
 cat << EOF
 
 ####################
-# Systemctl status #
+# Get actual stats #
 ####################
 
 EOF
 
 for c in proxy-1-centos-7 proxy-2-debian-9;do
-  echo -e "\nsystemctl for container ${c}\n"
-  docker exec ${c} systemctl status -l haproxy
+  echo -en "Stats for : ${c}\n"
+  docker exec ${c} bash -c 'echo "show stat" | socat /var/lib/haproxy/stats.sock stdio'
 done
+
+
 
 cat << EOF
 

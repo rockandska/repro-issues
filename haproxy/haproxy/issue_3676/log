@@ -73,56 +73,6 @@ backend bk_redis
   server redis-2-centos-7 redis-2-centos-7:6379 check inter 1s
   server redis-3-centos-7 redis-3-centos-7:6379 check inter 1s
 
-####################
-# Systemctl status #
-####################
-
-
-systemctl for container proxy-1-centos-7
-
-* haproxy.service - HAProxy Load Balancer
-   Loaded: loaded (/usr/lib/systemd/system/haproxy.service; enabled; vendor preset: disabled)
-   Active: active (running) since Tue 2019-04-02 13:36:19 UTC; 5s ago
- Main PID: 32466 (haproxy-systemd)
-   CGroup: /docker/ac237b4108ebf3b0eb5e7dbcd97dbdc5b2c2bb4b232f8a6efc5a454fdb6690b1/system.slice/haproxy.service
-           |-32466 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
-           |-32467 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-           `-32468 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-
-Apr 02 13:36:19 proxy-1-centos-7 systemd[1]: Started HAProxy Load Balancer.
-Apr 02 13:36:19 proxy-1-centos-7 haproxy-systemd-wrapper[32466]: haproxy-systemd-wrapper: executing /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-Apr 02 13:36:19 proxy-1-centos-7 haproxy-systemd-wrapper[32466]: [WARNING] 091/133619 (32467) : [/usr/sbin/haproxy.main()] Cannot raise FD limit to 400034.
-Apr 02 13:36:19 proxy-1-centos-7 haproxy[32467]: Proxy ft_redis started.
-Apr 02 13:36:19 proxy-1-centos-7 haproxy-systemd-wrapper[32466]: [WARNING] 091/133619 (32467) : [/usr/sbin/haproxy.main()] FD limit (65536) too low for maxconn=200000/maxsock=400034. Please raise 'ulimit-n' to 400034 or more to avoid any trouble.
-Apr 02 13:36:19 proxy-1-centos-7 haproxy[32467]: Proxy bk_redis started.
-Apr 02 13:36:20 proxy-1-centos-7 haproxy[32468]: Server bk_redis/redis-2-centos-7 is DOWN, reason: Layer7 timeout, info: " at step 5 of tcp-check (expect string 'role:master')", check duration: 1001ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-Apr 02 13:36:20 proxy-1-centos-7 haproxy[32468]: Server bk_redis/redis-3-centos-7 is DOWN, reason: Layer7 timeout, info: " at step 5 of tcp-check (expect string 'role:master')", check duration: 1003ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-
-systemctl for container proxy-2-debian-9
-
-* haproxy.service - HAProxy Load Balancer
-   Loaded: loaded (/lib/systemd/system/haproxy.service; enabled; vendor preset: enabled)
-   Active: active (running) since Tue 2019-04-02 13:36:19 UTC; 5s ago
-     Docs: man:haproxy(1)
-           file:/usr/share/doc/haproxy/configuration.txt.gz
-  Process: 16738 ExecStartPre=/usr/sbin/haproxy -f $CONFIG -c -q $EXTRAOPTS (code=exited, status=0/SUCCESS)
- Main PID: 16739 (haproxy-systemd)
-    Tasks: 3 (limit: 4915)
-   CGroup: /docker/7868ce3163b6034d7968408a03e7761eb17eb0cc2ec5b680fa0f2f2b14094a40/system.slice/haproxy.service
-           |-16739 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
-           |-16740 /usr/sbin/haproxy-master
-           `-16741 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-
-Apr 02 13:36:19 proxy-2-debian-9 systemd[1]: Starting HAProxy Load Balancer...
-Apr 02 13:36:19 proxy-2-debian-9 systemd[1]: Started HAProxy Load Balancer.
-Apr 02 13:36:19 proxy-2-debian-9 haproxy-systemd-wrapper[16739]: haproxy-systemd-wrapper: executing /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-Apr 02 13:36:19 proxy-2-debian-9 haproxy[16740]: Proxy ft_redis started.
-Apr 02 13:36:19 proxy-2-debian-9 haproxy[16740]: Proxy bk_redis started.
-Apr 02 13:36:19 proxy-2-debian-9 haproxy[16741]: Server bk_redis/redis-1-centos-7 is DOWN, reason: Layer4 connection problem, info: "Connection refused at step 1 of tcp-check (connect)", check duration: 0ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-Apr 02 13:36:19 proxy-2-debian-9 haproxy[16741]: Server bk_redis/redis-2-centos-7 is DOWN, reason: Layer4 connection problem, info: "Connection refused at step 1 of tcp-check (connect)", check duration: 0ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-Apr 02 13:36:20 proxy-2-debian-9 haproxy[16741]: Server bk_redis/redis-3-centos-7 is DOWN, reason: Layer4 connection problem, info: "Connection refused at step 1 of tcp-check (connect)", check duration: 0ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-Apr 02 13:36:20 proxy-2-debian-9 haproxy[16741]: backend bk_redis has no server available!
-
 #################################################
 # Get Redis nodes status from inside containers #
 #################################################
@@ -134,72 +84,72 @@ Inside container: proxy-1-centos-7
 	 redis-1-centos-7 :
 
             +PONG
-            $464
+            $454
             # Replication
             role:master
             connected_slaves:2
-            slave0:ip=172.28.5.2,port=6379,state=online,offset=3411881,lag=0
-            slave1:ip=172.28.5.1,port=6379,state=online,offset=3411733,lag=1
-            master_replid:186487241cd9594a4921b48b510ea432fa9dc5d5
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=200542,lag=1
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=200542,lag=1
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:3411881
+            master_repl_offset:200690
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
-            repl_backlog_first_byte_offset:2363306
-            repl_backlog_histlen:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:200690
             
             +OK
 
 	 redis-2-centos-7 :
 
             +PONG
-            $519
+            $510
             # Replication
             role:slave
             master_host:172.28.5.0
             master_port:6379
             master_link_status:up
-            master_last_io_seconds_ago:1
+            master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:3411881
+            slave_repl_offset:200690
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
-            master_replid:186487241cd9594a4921b48b510ea432fa9dc5d5
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:3411881
+            master_repl_offset:200690
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
-            repl_backlog_first_byte_offset:2363306
-            repl_backlog_histlen:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:200690
             
             +OK
 
 	 redis-3-centos-7 :
 
             +PONG
-            $519
+            $512
             # Replication
             role:slave
             master_host:172.28.5.0
             master_port:6379
             master_link_status:up
-            master_last_io_seconds_ago:1
+            master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:3411881
+            slave_repl_offset:200690
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
-            master_replid:186487241cd9594a4921b48b510ea432fa9dc5d5
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:3411881
+            master_repl_offset:200690
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
-            repl_backlog_first_byte_offset:2363306
-            repl_backlog_histlen:1048576
+            repl_backlog_first_byte_offset:186
+            repl_backlog_histlen:200505
             
             +OK
 
@@ -209,72 +159,72 @@ Inside container: proxy-2-debian-9
 	 redis-1-centos-7 :
 
             +PONG
-            $464
+            $454
             # Replication
             role:master
             connected_slaves:2
-            slave0:ip=172.28.5.2,port=6379,state=online,offset=3411881,lag=0
-            slave1:ip=172.28.5.1,port=6379,state=online,offset=3411881,lag=0
-            master_replid:186487241cd9594a4921b48b510ea432fa9dc5d5
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=200690,lag=0
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=200690,lag=0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:3411881
+            master_repl_offset:200690
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
-            repl_backlog_first_byte_offset:2363306
-            repl_backlog_histlen:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:200690
             
             +OK
 
 	 redis-2-centos-7 :
 
             +PONG
-            $519
+            $510
             # Replication
             role:slave
             master_host:172.28.5.0
             master_port:6379
             master_link_status:up
-            master_last_io_seconds_ago:1
+            master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:3411881
+            slave_repl_offset:200690
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
-            master_replid:186487241cd9594a4921b48b510ea432fa9dc5d5
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:3411881
+            master_repl_offset:200690
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
-            repl_backlog_first_byte_offset:2363306
-            repl_backlog_histlen:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:200690
             
             +OK
 
 	 redis-3-centos-7 :
 
             +PONG
-            $519
+            $512
             # Replication
             role:slave
             master_host:172.28.5.0
             master_port:6379
             master_link_status:up
-            master_last_io_seconds_ago:1
+            master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:3411881
+            slave_repl_offset:200690
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
-            master_replid:186487241cd9594a4921b48b510ea432fa9dc5d5
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:3411881
+            master_repl_offset:200690
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
-            repl_backlog_first_byte_offset:2363306
-            repl_backlog_histlen:1048576
+            repl_backlog_first_byte_offset:186
+            repl_backlog_histlen:200505
             
             +OK
 
@@ -286,15 +236,15 @@ Stats for : proxy-1-centos-7
 # pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,
 ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,
 bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,6,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,0,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,
-bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
-bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,3,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
 bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,6,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,
 
 Stats for : proxy-2-debian-9
 # pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,agent_status,agent_code,agent_duration,check_desc,agent_desc,check_rise,check_fall,check_health,agent_rise,agent_fall,agent_health,addr,cookie,mode,algo,conn_rate,conn_rate_max,conn_tot,intercepted,dcon,dses,
 ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,,,,,,,,,,,,,,tcp,,0,0,0,,0,0,
-bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,6,6,,1,3,1,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.0:6379,,tcp,,,,,,,,
-bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,6,6,,1,3,2,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
+bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,1,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.0:6379,,tcp,,,,,,,,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
 bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,3,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.2:6379,,tcp,,,,,,,,
 bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,DOWN,0,0,0,,1,5,5,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,,,,,,,,,,,,,,tcp,roundrobin,,,,,,,
 
@@ -307,11 +257,11 @@ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+614 packets captured
+614 packets received by filter
+0 packets dropped by kernel
 0 packets captured
 0 packets received by filter
-0 packets dropped by kernel
-621 packets captured
-621 packets received by filter
 0 packets dropped by kernel
 
 ####################################################
@@ -360,53 +310,181 @@ backend bk_redis
   server redis-2-centos-7 redis-2-centos-7:6379 check inter 1s
   server redis-3-centos-7 redis-3-centos-7:6379 check inter 1s
 
+#################################################
+# Get Redis nodes status from inside containers #
+#################################################
+
+
+Inside container: proxy-1-centos-7
+
+
+	 redis-1-centos-7 :
+
+            +PONG
+            $454
+            # Replication
+            role:master
+            connected_slaves:2
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=208576,lag=0
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=208576,lag=0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:208576
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:208576
+            
+            +OK
+
+	 redis-2-centos-7 :
+
+            +PONG
+            $510
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:0
+            master_sync_in_progress:0
+            slave_repl_offset:208576
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:208576
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:208576
+            
+            +OK
+
+	 redis-3-centos-7 :
+
+            +PONG
+            $512
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:0
+            master_sync_in_progress:0
+            slave_repl_offset:208724
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:208724
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:186
+            repl_backlog_histlen:208539
+            
+            +OK
+
+Inside container: proxy-2-debian-9
+
+
+	 redis-1-centos-7 :
+
+            +PONG
+            $454
+            # Replication
+            role:master
+            connected_slaves:2
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=208576,lag=0
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=208576,lag=0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:208724
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:208724
+            
+            +OK
+
+	 redis-2-centos-7 :
+
+            +PONG
+            $510
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:0
+            master_sync_in_progress:0
+            slave_repl_offset:208724
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:208724
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:208724
+            
+            +OK
+
+	 redis-3-centos-7 :
+
+            +PONG
+            $512
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:0
+            master_sync_in_progress:0
+            slave_repl_offset:208724
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:208724
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:186
+            repl_backlog_histlen:208539
+            
+            +OK
+
 ####################
-# Systemctl status #
+# Get actual stats #
 ####################
 
+Stats for : proxy-1-centos-7
+# pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,
+ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,
+bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,6,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,0,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L7TOUT,,1002,,,,,,,0,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,3,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,6,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,
 
-systemctl for container proxy-1-centos-7
+Stats for : proxy-2-debian-9
+# pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,agent_status,agent_code,agent_duration,check_desc,agent_desc,check_rise,check_fall,check_health,agent_rise,agent_fall,agent_health,addr,cookie,mode,algo,conn_rate,conn_rate_max,conn_tot,intercepted,dcon,dses,
+ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,,,,,,,,,,,,,,tcp,,0,0,0,,0,0,
+bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,6,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,,,,Layer7 check passed,,2,3,4,,,,172.28.5.0:6379,,tcp,,,,,,,,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,* L7TOUT,,1001,,,,,,,,,,,0,0,,,,,-1,,,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.2:6379,,tcp,,,,,,,,
+bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,6,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,,,,,,,,,,,,,,tcp,roundrobin,,,,,,,
 
-* haproxy.service - HAProxy Load Balancer
-   Loaded: loaded (/usr/lib/systemd/system/haproxy.service; enabled; vendor preset: disabled)
-   Active: active (running) since Tue 2019-04-02 13:36:55 UTC; 5s ago
- Main PID: 32614 (haproxy-systemd)
-   CGroup: /docker/ac237b4108ebf3b0eb5e7dbcd97dbdc5b2c2bb4b232f8a6efc5a454fdb6690b1/system.slice/haproxy.service
-           |-32614 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
-           |-32615 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-           `-32616 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-
-Apr 02 13:36:55 proxy-1-centos-7 systemd[1]: Started HAProxy Load Balancer.
-Apr 02 13:36:55 proxy-1-centos-7 haproxy-systemd-wrapper[32614]: haproxy-systemd-wrapper: executing /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-Apr 02 13:36:55 proxy-1-centos-7 haproxy-systemd-wrapper[32614]: [WARNING] 091/133655 (32615) : [/usr/sbin/haproxy.main()] Cannot raise FD limit to 400034.
-Apr 02 13:36:55 proxy-1-centos-7 haproxy[32615]: Proxy ft_redis started.
-Apr 02 13:36:55 proxy-1-centos-7 haproxy-systemd-wrapper[32614]: [WARNING] 091/133655 (32615) : [/usr/sbin/haproxy.main()] FD limit (65536) too low for maxconn=200000/maxsock=400034. Please raise 'ulimit-n' to 400034 or more to avoid any trouble.
-Apr 02 13:36:55 proxy-1-centos-7 haproxy[32615]: Proxy bk_redis started.
-Apr 02 13:36:56 proxy-1-centos-7 haproxy[32616]: Server bk_redis/redis-2-centos-7 is DOWN, reason: Layer7 timeout, info: " at step 4 of tcp-check (expect string 'role:master')", check duration: 1002ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-Apr 02 13:36:57 proxy-1-centos-7 haproxy[32616]: Server bk_redis/redis-3-centos-7 is DOWN, reason: Layer7 timeout, info: " at step 4 of tcp-check (expect string 'role:master')", check duration: 1002ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-
-systemctl for container proxy-2-debian-9
-
-* haproxy.service - HAProxy Load Balancer
-   Loaded: loaded (/lib/systemd/system/haproxy.service; enabled; vendor preset: enabled)
-   Active: active (running) since Tue 2019-04-02 13:36:55 UTC; 5s ago
-     Docs: man:haproxy(1)
-           file:/usr/share/doc/haproxy/configuration.txt.gz
-  Process: 16931 ExecStartPre=/usr/sbin/haproxy -f $CONFIG -c -q $EXTRAOPTS (code=exited, status=0/SUCCESS)
- Main PID: 16932 (haproxy-systemd)
-    Tasks: 3 (limit: 4915)
-   CGroup: /docker/7868ce3163b6034d7968408a03e7761eb17eb0cc2ec5b680fa0f2f2b14094a40/system.slice/haproxy.service
-           |-16932 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
-           |-16933 /usr/sbin/haproxy-master
-           `-16934 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-
-Apr 02 13:36:55 proxy-2-debian-9 systemd[1]: Starting HAProxy Load Balancer...
-Apr 02 13:36:55 proxy-2-debian-9 systemd[1]: Started HAProxy Load Balancer.
-Apr 02 13:36:55 proxy-2-debian-9 haproxy-systemd-wrapper[16932]: haproxy-systemd-wrapper: executing /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-Apr 02 13:36:55 proxy-2-debian-9 haproxy[16933]: Proxy ft_redis started.
-Apr 02 13:36:55 proxy-2-debian-9 haproxy[16933]: Proxy bk_redis started.
-Apr 02 13:36:56 proxy-2-debian-9 haproxy[16934]: Server bk_redis/redis-2-centos-7 is DOWN, reason: Layer7 timeout, info: " at step 4 of tcp-check (expect string 'role:master')", check duration: 1002ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
-Apr 02 13:36:57 proxy-2-debian-9 haproxy[16934]: Server bk_redis/redis-3-centos-7 is DOWN, reason: Layer7 timeout, info: " at step 4 of tcp-check (expect string 'role:master')", check duration: 1002ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
 
 ##################################################
 # Capture traffic ('tcp-check connect' disabled) #
@@ -416,9 +494,9 @@ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
-622 packets captured
-622 packets received by filter
+624 packets captured
+624 packets received by filter
 0 packets dropped by kernel
-621 packets captured
-621 packets received by filter
+619 packets captured
+620 packets received by filter
 0 packets dropped by kernel
