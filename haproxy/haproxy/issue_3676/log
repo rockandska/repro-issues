@@ -20,11 +20,286 @@ Copyright 2000-2017 Willy Tarreau <willy@haproxy.org>
 # IP's of containers #
 ######################
 
-proxy-1-centos-7:                    "IPAddress": "172.28.5.4",
-proxy-2-debian-9:                    "IPAddress": "172.28.5.5",
-redis-1-centos-7:                    "IPAddress": "172.28.5.0",
-redis-2-centos-7:                    "IPAddress": "172.28.5.1",
-redis-3-centos-7:                    "IPAddress": "172.28.5.2",
+proxy-1-centos-7 : 172.28.5.4
+proxy-2-debian-9 : 172.28.5.5
+redis-1-centos-7 : 172.28.5.0
+redis-2-centos-7 : 172.28.5.1
+redis-3-centos-7 : 172.28.5.2
+
+####################################
+# Show /etc/hosts inside container #
+####################################
+
+
+ ------ Inside 'proxy-1-centos-7' container: -------
+
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.28.5.4	proxy-1-centos-7
+
+ ------ Inside 'proxy-2-debian-9' container: -------
+
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.28.5.5	proxy-2-debian-9
+
+ ------ Inside 'redis-1-centos-7' container: -------
+
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.28.5.0	redis-1-centos-7
+
+ ------ Inside 'redis-2-centos-7' container: -------
+
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.28.5.1	redis-2-centos-7
+
+ ------ Inside 'redis-3-centos-7' container: -------
+
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.28.5.2	redis-3-centos-7
+
+######################################
+# Show resolve from inside container #
+######################################
+
+
+ ------ Inside 'proxy-1-centos-7' container: -------
+
+PING proxy-1-centos-7 (172.28.5.4) 56(84) bytes of data.
+64 bytes from proxy-1-centos-7 (172.28.5.4): icmp_seq=1 ttl=64 time=0.035 ms
+64 bytes from proxy-1-centos-7 (172.28.5.4): icmp_seq=2 ttl=64 time=0.091 ms
+64 bytes from proxy-1-centos-7 (172.28.5.4): icmp_seq=3 ttl=64 time=0.035 ms
+
+--- proxy-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2030ms
+rtt min/avg/max/mdev = 0.035/0.053/0.091/0.027 ms
+PING proxy-2-debian-9 (172.28.5.5) 56(84) bytes of data.
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=1 ttl=64 time=0.064 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=2 ttl=64 time=0.186 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=3 ttl=64 time=0.130 ms
+
+--- proxy-2-debian-9 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2051ms
+rtt min/avg/max/mdev = 0.064/0.126/0.186/0.051 ms
+PING redis-1-centos-7 (172.28.5.0) 56(84) bytes of data.
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=1 ttl=64 time=0.058 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=2 ttl=64 time=0.037 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=3 ttl=64 time=0.246 ms
+
+--- redis-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2055ms
+rtt min/avg/max/mdev = 0.037/0.113/0.246/0.094 ms
+PING redis-2-centos-7 (172.28.5.1) 56(84) bytes of data.
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=1 ttl=64 time=0.055 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=2 ttl=64 time=0.074 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=3 ttl=64 time=0.053 ms
+
+--- redis-2-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2039ms
+rtt min/avg/max/mdev = 0.053/0.060/0.074/0.013 ms
+PING redis-3-centos-7 (172.28.5.2) 56(84) bytes of data.
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=1 ttl=64 time=0.076 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=2 ttl=64 time=0.223 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=3 ttl=64 time=0.255 ms
+
+--- redis-3-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2041ms
+rtt min/avg/max/mdev = 0.076/0.184/0.255/0.079 ms
+
+ ------ Inside 'proxy-2-debian-9' container: -------
+
+PING proxy-1-centos-7 (172.28.5.4) 56(84) bytes of data.
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=1 ttl=64 time=0.061 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=2 ttl=64 time=0.166 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=3 ttl=64 time=0.221 ms
+
+--- proxy-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2046ms
+rtt min/avg/max/mdev = 0.061/0.149/0.221/0.067 ms
+PING proxy-2-debian-9 (172.28.5.5) 56(84) bytes of data.
+64 bytes from proxy-2-debian-9 (172.28.5.5): icmp_seq=1 ttl=64 time=0.029 ms
+64 bytes from proxy-2-debian-9 (172.28.5.5): icmp_seq=2 ttl=64 time=0.105 ms
+64 bytes from proxy-2-debian-9 (172.28.5.5): icmp_seq=3 ttl=64 time=0.068 ms
+
+--- proxy-2-debian-9 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2043ms
+rtt min/avg/max/mdev = 0.029/0.067/0.105/0.031 ms
+PING redis-1-centos-7 (172.28.5.0) 56(84) bytes of data.
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=1 ttl=64 time=0.041 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=2 ttl=64 time=0.057 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=3 ttl=64 time=0.184 ms
+
+--- redis-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2055ms
+rtt min/avg/max/mdev = 0.041/0.094/0.184/0.063 ms
+PING redis-2-centos-7 (172.28.5.1) 56(84) bytes of data.
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=1 ttl=64 time=0.048 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=2 ttl=64 time=0.150 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=3 ttl=64 time=0.090 ms
+
+--- redis-2-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2034ms
+rtt min/avg/max/mdev = 0.048/0.096/0.150/0.041 ms
+PING redis-3-centos-7 (172.28.5.2) 56(84) bytes of data.
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=1 ttl=64 time=0.057 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=2 ttl=64 time=0.049 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=3 ttl=64 time=0.065 ms
+
+--- redis-3-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2053ms
+rtt min/avg/max/mdev = 0.049/0.057/0.065/0.006 ms
+
+ ------ Inside 'redis-1-centos-7' container: -------
+
+PING proxy-1-centos-7 (172.28.5.4) 56(84) bytes of data.
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=1 ttl=64 time=0.071 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=2 ttl=64 time=0.155 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=3 ttl=64 time=0.147 ms
+
+--- proxy-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2052ms
+rtt min/avg/max/mdev = 0.071/0.124/0.155/0.038 ms
+PING proxy-2-debian-9 (172.28.5.5) 56(84) bytes of data.
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=1 ttl=64 time=0.049 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=2 ttl=64 time=0.097 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=3 ttl=64 time=0.133 ms
+
+--- proxy-2-debian-9 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2038ms
+rtt min/avg/max/mdev = 0.049/0.093/0.133/0.034 ms
+PING redis-1-centos-7 (172.28.5.0) 56(84) bytes of data.
+64 bytes from redis-1-centos-7 (172.28.5.0): icmp_seq=1 ttl=64 time=0.039 ms
+64 bytes from redis-1-centos-7 (172.28.5.0): icmp_seq=2 ttl=64 time=0.085 ms
+64 bytes from redis-1-centos-7 (172.28.5.0): icmp_seq=3 ttl=64 time=0.100 ms
+
+--- redis-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2048ms
+rtt min/avg/max/mdev = 0.039/0.074/0.100/0.027 ms
+PING redis-2-centos-7 (172.28.5.1) 56(84) bytes of data.
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=1 ttl=64 time=0.044 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=2 ttl=64 time=0.047 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=3 ttl=64 time=0.132 ms
+
+--- redis-2-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2048ms
+rtt min/avg/max/mdev = 0.044/0.074/0.132/0.041 ms
+PING redis-3-centos-7 (172.28.5.2) 56(84) bytes of data.
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=1 ttl=64 time=0.045 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=2 ttl=64 time=0.135 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=3 ttl=64 time=0.158 ms
+
+--- redis-3-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2048ms
+rtt min/avg/max/mdev = 0.045/0.112/0.158/0.050 ms
+
+ ------ Inside 'redis-2-centos-7' container: -------
+
+PING proxy-1-centos-7 (172.28.5.4) 56(84) bytes of data.
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=1 ttl=64 time=0.057 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=2 ttl=64 time=0.121 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=3 ttl=64 time=0.145 ms
+
+--- proxy-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2031ms
+rtt min/avg/max/mdev = 0.057/0.107/0.145/0.039 ms
+PING proxy-2-debian-9 (172.28.5.5) 56(84) bytes of data.
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=1 ttl=64 time=0.050 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=2 ttl=64 time=0.138 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=3 ttl=64 time=0.131 ms
+
+--- proxy-2-debian-9 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2044ms
+rtt min/avg/max/mdev = 0.050/0.106/0.138/0.040 ms
+PING redis-1-centos-7 (172.28.5.0) 56(84) bytes of data.
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=1 ttl=64 time=0.051 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=2 ttl=64 time=0.128 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=3 ttl=64 time=0.157 ms
+
+--- redis-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2031ms
+rtt min/avg/max/mdev = 0.051/0.112/0.157/0.044 ms
+PING redis-2-centos-7 (172.28.5.1) 56(84) bytes of data.
+64 bytes from redis-2-centos-7 (172.28.5.1): icmp_seq=1 ttl=64 time=0.039 ms
+64 bytes from redis-2-centos-7 (172.28.5.1): icmp_seq=2 ttl=64 time=0.097 ms
+64 bytes from redis-2-centos-7 (172.28.5.1): icmp_seq=3 ttl=64 time=0.103 ms
+
+--- redis-2-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2052ms
+rtt min/avg/max/mdev = 0.039/0.079/0.103/0.030 ms
+PING redis-3-centos-7 (172.28.5.2) 56(84) bytes of data.
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=1 ttl=64 time=0.045 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=2 ttl=64 time=0.235 ms
+64 bytes from redis-3-centos-7.canoctl_docker (172.28.5.2): icmp_seq=3 ttl=64 time=0.168 ms
+
+--- redis-3-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2029ms
+rtt min/avg/max/mdev = 0.045/0.149/0.235/0.079 ms
+
+ ------ Inside 'redis-3-centos-7' container: -------
+
+PING proxy-1-centos-7 (172.28.5.4) 56(84) bytes of data.
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=1 ttl=64 time=0.058 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=2 ttl=64 time=0.157 ms
+64 bytes from proxy-1-centos-7.canoctl_docker (172.28.5.4): icmp_seq=3 ttl=64 time=0.167 ms
+
+--- proxy-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2050ms
+rtt min/avg/max/mdev = 0.058/0.127/0.167/0.050 ms
+PING proxy-2-debian-9 (172.28.5.5) 56(84) bytes of data.
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=1 ttl=64 time=0.044 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=2 ttl=64 time=0.113 ms
+64 bytes from proxy-2-debian-9.canoctl_docker (172.28.5.5): icmp_seq=3 ttl=64 time=0.169 ms
+
+--- proxy-2-debian-9 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2051ms
+rtt min/avg/max/mdev = 0.044/0.108/0.169/0.052 ms
+PING redis-1-centos-7 (172.28.5.0) 56(84) bytes of data.
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=1 ttl=64 time=0.051 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=2 ttl=64 time=0.156 ms
+64 bytes from redis-1-centos-7.canoctl_docker (172.28.5.0): icmp_seq=3 ttl=64 time=0.159 ms
+
+--- redis-1-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2051ms
+rtt min/avg/max/mdev = 0.051/0.122/0.159/0.050 ms
+PING redis-2-centos-7 (172.28.5.1) 56(84) bytes of data.
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=1 ttl=64 time=0.043 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=2 ttl=64 time=0.159 ms
+64 bytes from redis-2-centos-7.canoctl_docker (172.28.5.1): icmp_seq=3 ttl=64 time=0.179 ms
+
+--- redis-2-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2046ms
+rtt min/avg/max/mdev = 0.043/0.127/0.179/0.059 ms
+PING redis-3-centos-7 (172.28.5.2) 56(84) bytes of data.
+64 bytes from redis-3-centos-7 (172.28.5.2): icmp_seq=1 ttl=64 time=0.039 ms
+64 bytes from redis-3-centos-7 (172.28.5.2): icmp_seq=2 ttl=64 time=0.083 ms
+64 bytes from redis-3-centos-7 (172.28.5.2): icmp_seq=3 ttl=64 time=0.041 ms
+
+--- redis-3-centos-7 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2048ms
+rtt min/avg/max/mdev = 0.039/0.054/0.083/0.021 ms
 
 #################################################
 # Apply Haproxy conf (with 'tcp-check connect') #
@@ -88,16 +363,16 @@ Inside container: proxy-1-centos-7
             # Replication
             role:master
             connected_slaves:2
-            slave0:ip=172.28.5.1,port=6379,state=online,offset=200542,lag=1
-            slave1:ip=172.28.5.2,port=6379,state=online,offset=200542,lag=1
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=813750,lag=1
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=813898,lag=0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:200690
+            master_repl_offset:814046
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:200690
+            repl_backlog_histlen:814046
             
             +OK
 
@@ -112,18 +387,18 @@ Inside container: proxy-1-centos-7
             master_link_status:up
             master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:200690
+            slave_repl_offset:814046
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:200690
+            master_repl_offset:814046
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:200690
+            repl_backlog_histlen:814046
             
             +OK
 
@@ -138,18 +413,18 @@ Inside container: proxy-1-centos-7
             master_link_status:up
             master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:200690
+            slave_repl_offset:814046
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:200690
+            master_repl_offset:814046
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:186
-            repl_backlog_histlen:200505
+            repl_backlog_histlen:813861
             
             +OK
 
@@ -163,16 +438,16 @@ Inside container: proxy-2-debian-9
             # Replication
             role:master
             connected_slaves:2
-            slave0:ip=172.28.5.1,port=6379,state=online,offset=200690,lag=0
-            slave1:ip=172.28.5.2,port=6379,state=online,offset=200690,lag=0
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=813750,lag=1
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=813898,lag=0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:200690
+            master_repl_offset:814046
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:200690
+            repl_backlog_histlen:814046
             
             +OK
 
@@ -187,18 +462,18 @@ Inside container: proxy-2-debian-9
             master_link_status:up
             master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:200690
+            slave_repl_offset:814046
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:200690
+            master_repl_offset:814046
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:200690
+            repl_backlog_histlen:814046
             
             +OK
 
@@ -213,18 +488,18 @@ Inside container: proxy-2-debian-9
             master_link_status:up
             master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:200690
+            slave_repl_offset:814046
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:200690
+            master_repl_offset:814046
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:186
-            repl_backlog_histlen:200505
+            repl_backlog_histlen:813861
             
             +OK
 
@@ -236,15 +511,15 @@ Stats for : proxy-1-centos-7
 # pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,
 ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,
 bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,6,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,0,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,
-bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
-bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L7TOUT,,1000,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,3,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
 bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,6,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,
 
 Stats for : proxy-2-debian-9
 # pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,agent_status,agent_code,agent_duration,check_desc,agent_desc,check_rise,check_fall,check_health,agent_rise,agent_fall,agent_health,addr,cookie,mode,algo,conn_rate,conn_rate_max,conn_tot,intercepted,dcon,dses,
 ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,,,,,,,,,,,,,,tcp,,0,0,0,,0,0,
-bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,1,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.0:6379,,tcp,,,,,,,,
-bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
+bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,6,6,,1,3,1,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.0:6379,,tcp,,,,,,,,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,6,6,,1,3,2,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
 bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,3,,0,,2,0,,0,L4CON,,0,,,,,,,,,,,0,0,,,,,-1,Connection refused at step 1 of tcp-check (connect),,0,0,0,0,,,,Layer4 connection problem,,2,3,0,,,,172.28.5.2:6379,,tcp,,,,,,,,
 bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,DOWN,0,0,0,,1,5,5,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,,,,,,,,,,,,,,tcp,roundrobin,,,,,,,
 
@@ -257,11 +532,11 @@ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
-614 packets captured
-614 packets received by filter
-0 packets dropped by kernel
 0 packets captured
 0 packets received by filter
+0 packets dropped by kernel
+622 packets captured
+622 packets received by filter
 0 packets dropped by kernel
 
 ####################################################
@@ -325,16 +600,16 @@ Inside container: proxy-1-centos-7
             # Replication
             role:master
             connected_slaves:2
-            slave0:ip=172.28.5.1,port=6379,state=online,offset=208576,lag=0
-            slave1:ip=172.28.5.2,port=6379,state=online,offset=208576,lag=0
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=821650,lag=1
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=821798,lag=1
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:208576
+            master_repl_offset:821798
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:208576
+            repl_backlog_histlen:821798
             
             +OK
 
@@ -349,18 +624,18 @@ Inside container: proxy-1-centos-7
             master_link_status:up
             master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:208576
+            slave_repl_offset:821946
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:208576
+            master_repl_offset:821946
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:208576
+            repl_backlog_histlen:821946
             
             +OK
 
@@ -373,20 +648,20 @@ Inside container: proxy-1-centos-7
             master_host:172.28.5.0
             master_port:6379
             master_link_status:up
-            master_last_io_seconds_ago:0
+            master_last_io_seconds_ago:1
             master_sync_in_progress:0
-            slave_repl_offset:208724
+            slave_repl_offset:821946
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:208724
+            master_repl_offset:821946
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:186
-            repl_backlog_histlen:208539
+            repl_backlog_histlen:821761
             
             +OK
 
@@ -400,16 +675,16 @@ Inside container: proxy-2-debian-9
             # Replication
             role:master
             connected_slaves:2
-            slave0:ip=172.28.5.1,port=6379,state=online,offset=208576,lag=0
-            slave1:ip=172.28.5.2,port=6379,state=online,offset=208576,lag=0
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=821946,lag=0
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=821798,lag=1
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:208724
+            master_repl_offset:821946
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:208724
+            repl_backlog_histlen:821946
             
             +OK
 
@@ -424,18 +699,18 @@ Inside container: proxy-2-debian-9
             master_link_status:up
             master_last_io_seconds_ago:0
             master_sync_in_progress:0
-            slave_repl_offset:208724
+            slave_repl_offset:821946
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:208724
+            master_repl_offset:821946
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:1
-            repl_backlog_histlen:208724
+            repl_backlog_histlen:821946
             
             +OK
 
@@ -448,20 +723,20 @@ Inside container: proxy-2-debian-9
             master_host:172.28.5.0
             master_port:6379
             master_link_status:up
-            master_last_io_seconds_ago:0
+            master_last_io_seconds_ago:1
             master_sync_in_progress:0
-            slave_repl_offset:208724
+            slave_repl_offset:821946
             slave_priority:100
             slave_read_only:1
             connected_slaves:0
             master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
             master_replid2:0000000000000000000000000000000000000000
-            master_repl_offset:208724
+            master_repl_offset:821946
             second_repl_offset:-1
             repl_backlog_active:1
             repl_backlog_size:1048576
             repl_backlog_first_byte_offset:186
-            repl_backlog_histlen:208539
+            repl_backlog_histlen:821761
             
             +OK
 
@@ -474,15 +749,15 @@ Stats for : proxy-1-centos-7
 ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,
 bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,6,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,0,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,
 bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L7TOUT,,1002,,,,,,,0,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,
-bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,3,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,L7TOUT,,1002,,,,,,,0,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,
 bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,6,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,
 
 Stats for : proxy-2-debian-9
 # pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,agent_status,agent_code,agent_duration,check_desc,agent_desc,check_rise,check_fall,check_health,agent_rise,agent_fall,agent_health,addr,cookie,mode,algo,conn_rate,conn_rate_max,conn_tot,intercepted,dcon,dses,
 ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,,,,,,,,,,,,,,tcp,,0,0,0,,0,0,
 bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,6,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,,,,Layer7 check passed,,2,3,4,,,,172.28.5.0:6379,,tcp,,,,,,,,
-bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,5,5,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
-bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,* L7TOUT,,1001,,,,,,,,,,,0,0,,,,,-1,,,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.2:6379,,tcp,,,,,,,,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,,,,,0,0,,,,,-1, at step 4 of tcp-check (expect string 'role:master'),,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,* L7TOUT,,1000,,,,,,,,,,,0,0,,,,,-1,,,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.2:6379,,tcp,,,,,,,,
 bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,6,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,,,,,,,,,,,,,,tcp,roundrobin,,,,,,,
 
 
@@ -494,9 +769,249 @@ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
-624 packets captured
-624 packets received by filter
+601 packets captured
+601 packets received by filter
 0 packets dropped by kernel
-619 packets captured
-620 packets received by filter
+615 packets captured
+615 packets received by filter
+0 packets dropped by kernel
+
+#################################################
+# Apply Haproxy conf (with 'tcp-check connect') #
+#        but use IP instead of fqdn             #
+#################################################
+
+proxy-1-centos-7.... done
+proxy-2-debian-9.... done
+
+########################
+# Haproxy conf applied #
+########################
+
+global
+  log /dev/log local2
+  stats socket /var/lib/haproxy/stats.sock mode 660 level admin process 1
+  stats timeout 30s
+  user haproxy
+  group haproxy
+  daemon
+  maxconn 200000
+
+defaults
+  log global
+  mode tcp
+  option  tcplog
+  timeout connect 5000
+  timeout client 50000
+  timeout server 50000
+
+frontend ft_redis
+  bind :6379 name redis
+  default_backend bk_redis
+  mode tcp
+
+backend bk_redis
+  mode tcp
+  option tcp-check
+  tcp-check connect
+  tcp-check send PING\r\n
+  tcp-check expect string +PONG
+  tcp-check send info\ replication\r\n
+  tcp-check expect string role:master
+  tcp-check send QUIT\r\n
+  tcp-check expect string +OK
+  server redis-1-centos-7 172.28.5.0:6379 check inter 1s
+  server redis-2-centos-7 172.28.5.1:6379 check inter 1s
+  server redis-3-centos-7 172.28.5.2:6379 check inter 1s
+
+#################################################
+# Get Redis nodes status from inside containers #
+#################################################
+
+
+Inside container: proxy-1-centos-7
+
+
+	 redis-1-centos-7 :
+
+            +PONG
+            $454
+            # Replication
+            role:master
+            connected_slaves:2
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=829846,lag=0
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=829846,lag=1
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:829846
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:829846
+            
+            +OK
+
+	 redis-2-centos-7 :
+
+            +PONG
+            $510
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:1
+            master_sync_in_progress:0
+            slave_repl_offset:829846
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:829846
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:829846
+            
+            +OK
+
+	 redis-3-centos-7 :
+
+            +PONG
+            $512
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:1
+            master_sync_in_progress:0
+            slave_repl_offset:829846
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:829846
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:186
+            repl_backlog_histlen:829661
+            
+            +OK
+
+Inside container: proxy-2-debian-9
+
+
+	 redis-1-centos-7 :
+
+            +PONG
+            $454
+            # Replication
+            role:master
+            connected_slaves:2
+            slave0:ip=172.28.5.1,port=6379,state=online,offset=829846,lag=0
+            slave1:ip=172.28.5.2,port=6379,state=online,offset=829846,lag=1
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:829846
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:829846
+            
+            +OK
+
+	 redis-2-centos-7 :
+
+            +PONG
+            $510
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:1
+            master_sync_in_progress:0
+            slave_repl_offset:829846
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:829846
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:1
+            repl_backlog_histlen:829846
+            
+            +OK
+
+	 redis-3-centos-7 :
+
+            +PONG
+            $512
+            # Replication
+            role:slave
+            master_host:172.28.5.0
+            master_port:6379
+            master_link_status:up
+            master_last_io_seconds_ago:1
+            master_sync_in_progress:0
+            slave_repl_offset:829846
+            slave_priority:100
+            slave_read_only:1
+            connected_slaves:0
+            master_replid:f8eac6c8a17a641b11523474ffa3dbd0af88977a
+            master_replid2:0000000000000000000000000000000000000000
+            master_repl_offset:829846
+            second_repl_offset:-1
+            repl_backlog_active:1
+            repl_backlog_size:1048576
+            repl_backlog_first_byte_offset:186
+            repl_backlog_histlen:829661
+            
+            +OK
+
+####################
+# Get actual stats #
+####################
+
+Stats for : proxy-1-centos-7
+# pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,
+ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,
+bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,6,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,0,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,L7TOUT,,1002,,,,,,,0,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,
+bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,6,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,
+
+Stats for : proxy-2-debian-9
+# pxname,svname,qcur,qmax,scur,smax,slim,stot,bin,bout,dreq,dresp,ereq,econ,eresp,wretr,wredis,status,weight,act,bck,chkfail,chkdown,lastchg,downtime,qlimit,pid,iid,sid,throttle,lbtot,tracked,type,rate,rate_lim,rate_max,check_status,check_code,check_duration,hrsp_1xx,hrsp_2xx,hrsp_3xx,hrsp_4xx,hrsp_5xx,hrsp_other,hanafail,req_rate,req_rate_max,req_tot,cli_abrt,srv_abrt,comp_in,comp_out,comp_byp,comp_rsp,lastsess,last_chk,last_agt,qtime,ctime,rtime,ttime,agent_status,agent_code,agent_duration,check_desc,agent_desc,check_rise,check_fall,check_health,agent_rise,agent_fall,agent_health,addr,cookie,mode,algo,conn_rate,conn_rate_max,conn_tot,intercepted,dcon,dses,
+ft_redis,FRONTEND,,,0,0,2000,0,0,0,0,0,0,,,,,OPEN,,,,,,,,,1,2,0,,,,0,0,0,0,,,,,,,,,,,0,0,0,,,0,0,0,0,,,,,,,,,,,,,,,,,,,,,tcp,,0,0,0,,0,0,
+bk_redis,redis-1-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,UP,1,1,0,0,0,5,0,,1,3,1,,0,,2,0,,0,L7OK,0,1,,,,,,,,,,,0,0,,,,,-1,(tcp-check),,0,0,0,0,,,,Layer7 check passed,,2,3,4,,,,172.28.5.0:6379,,tcp,,,,,,,,
+bk_redis,redis-2-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,2,,0,,2,0,,0,L7TOUT,,1001,,,,,,,,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.1:6379,,tcp,,,,,,,,
+bk_redis,redis-3-centos-7,0,0,0,0,,0,0,0,,0,,0,0,0,0,DOWN,1,1,0,1,1,4,4,,1,3,3,,0,,2,0,,0,L7TOUT,,1001,,,,,,,,,,,0,0,,,,,-1, at step 5 of tcp-check (expect string 'role:master'),,0,0,0,0,,,,Layer7 timeout,,2,3,0,,,,172.28.5.2:6379,,tcp,,,,,,,,
+bk_redis,BACKEND,0,0,0,0,200,0,0,0,0,0,,0,0,0,0,UP,1,1,0,,0,5,0,,1,3,0,,0,,1,0,,0,,,,,,,,,,,,,,0,0,0,0,0,0,-1,,,0,0,0,0,,,,,,,,,,,,,,tcp,roundrobin,,,,,,,
+
+
+#################################################
+# Capture traffic ('tcp-check connect' enabled) #
+#        but using ips instead of fqdn          #
+#################################################
+
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+614 packets captured
+614 packets received by filter
+0 packets dropped by kernel
+618 packets captured
+619 packets received by filter
 0 packets dropped by kernel
