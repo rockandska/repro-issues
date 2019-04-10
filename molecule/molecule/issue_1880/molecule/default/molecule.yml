@@ -7,6 +7,7 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
+    enabled: false
 scenario:
   name: default
 verifier:
@@ -21,16 +22,17 @@ platforms:
   - name: instance
     image: centos:7
   - name: instance2
-    image: molecule_centos
+    image: centos:7
     networks:
       - name: test_network
   - name: instance3
-    image: molecule_debian
+    image: debian:9
     networks:
       - name: test_network
 #    docker_host: tcp://127.0.0.1:2375
 driver:
   name: docker
+  schema_version: 2
   # Hosts informations to include in modules
   # Used to override defaults one
   # key: value used with all docker module who need the API
@@ -50,10 +52,10 @@ driver:
   # containers will try to find image information here first before pulling
   # key: value valide on docker_image module
   images:
-    - name: molecule_centos
+    - name: centos:7
       buildargs:
         FROM_IMAGE: "centos:7"
-    - name: molecule_debian
+    - name: debian:9
       buildargs:
         FROM_IMAGE: "debian:9"
   # Registries

@@ -1,7 +1,19 @@
 # Molecule managed
-ARG FROM_IMAGE=centos:7
 
-FROM ${FROM_IMAGE}
+{% if molecule_yml.driver.schema_version | d('1') != 2 %}
+# Docker schema version 1
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+{% else %}
+# Docker schema version 2
+FROM {{ item.name }}
+{% endif %}
+
+ARG testarg=fail
+ENV envarg=$testarg
 
 RUN if [ $(command -v apt-get) ]; then apt-get update && apt-get install -y python sudo bash ca-certificates && apt-get clean; \
     elif [ $(command -v dnf) ]; then dnf makecache && dnf --assumeyes install python sudo python-devel python2-dnf bash && dnf clean all; \
