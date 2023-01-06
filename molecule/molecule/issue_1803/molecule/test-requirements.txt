@@ -1,5 +1,0 @@
-molecule>=2.15.0
-docker
-ansible-lint>=3.4.0
-jmespath
-pytest==3.9.3
